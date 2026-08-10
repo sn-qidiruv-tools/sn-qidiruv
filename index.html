@@ -886,6 +886,15 @@ function escapeHtml(str) {
   return (str || '-').toString().replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 }
 
+// Ustun nomini katta-kichik harfga qaramasdan topadi (masalan "bo'sh port", "BO'SH PORT")
+function getField(row, name) {
+  const target = name.toLowerCase().trim();
+  for (const key in row) {
+    if (key.toLowerCase().trim() === target) return row[key];
+  }
+  return '';
+}
+
 function highlightMatch(serial, query) {
   const s = serial || '-';
   if (!query) return escapeHtml(s);
@@ -963,6 +972,7 @@ function buildCard(row, query) {
     </div>
     <div class="card-row"><span class="label">OLT</span><span class="value">${escapeHtml(row.OLT)}</span></div>
     <div class="card-row"><span class="label">Port</span><span class="value">${escapeHtml(row.PORT)}</span></div>
+    <div class="card-row"><span class="label">Bo'sh port</span><span class="value">${escapeHtml(getField(row, "bo'sh port"))}</span></div>
     <div class="card-row"><span class="label">Manzil</span><span class="value">${escapeHtml(row.MANZIL)}</span></div>
     <div class="card-row"><span class="label">Lokatsiya</span><span class="value">${escapeHtml(row.LOKATSIYA)}</span></div>
     <div class="card-row"><span class="label">Markasi</span><span class="value">${escapeHtml(row.MARKASI)}</span></div>
@@ -1255,6 +1265,7 @@ function renderDeviceRows(devices) {
           <button class="device-more-btn" id="btn-${rid}">Ko'proq</button>
         </div>
         <div class="device-detail" id="${rid}">
+          <div class="card-row"><span class="label">Bo'sh port</span><span class="value">${escapeHtml(getField(row, "bo'sh port"))}</span></div>
           <div class="card-row"><span class="label">Manzil</span><span class="value">${escapeHtml(row.MANZIL)}</span></div>
           <div class="card-row"><span class="label">Lokatsiya</span><span class="value">${escapeHtml(row.LOKATSIYA)}</span></div>
           <div class="card-row"><span class="label">Markasi</span><span class="value">${escapeHtml(row.MARKASI)}</span></div>
